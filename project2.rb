@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'rgl/adjacency'
-require 'rgl/dot'
 require 'set'
 
 def main
@@ -15,16 +14,16 @@ def maximum_clique( graph )
   else
     max = 1
   end
-  cliques = []
+#  cliques = []
   bron_kerbosch(graph,[],graph.vertices,[]) do
     |clique|
-    cliques.push clique
+#    cliques.push clique
     if(clique.size > max)
       max = clique.size
     end
   end
-  cliques.sort_by!(){|c| c.size}
-  cliques.each {|c| puts c.to_a.to_s}
+#  cliques.sort_by!(){|c| c.size}
+#  cliques.each {|c| puts c.to_a.to_s}
   return max
 end
 
