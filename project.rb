@@ -1,33 +1,42 @@
-require 'rubygems'
+#require 'rubygems'
 require 'rgl/adjacency'
+require 'rgl/implicit'
 require 'rgl/dot'
-require 'rgl/traversal'
-require 'rgl/connected_components'
+require 'set'
 
 def main
   graphs = parse()
   i = 0
-#  graphs.each {|g| g.write_to_graphic_file('png', "graphs/g#{g.size}")}
-  graphs.each {|g| puts maximum_clique(g)}
+#  graphs.each {|g| g.write_to_graphic_file('png', "g#{g.size}")}
+  graphs.each {|g| puts "M:#{maximum_clique(g)}"}
 
 end
 
 def maximum_clique( graph )
-  max = 1
-  graph.each_vertex do
-    |c|
-    map = []
-    va = graph.adjacent_vertices(c)
-    graph.each_adjacent(c) do
-      |av|
-      vb = graph.adjacent_vertices(av) - [c]
-      map = map | va & vb
-    end
-    map = map | [c]
-    max = map.size if(map.size > max)
-    puts "m: #{map}"
+  if graph.vertices.size > 0
+    max = 2
+  else
+    max = 1
   end
-  max
+  prune_n_degree_vertices(graph,1) # these vertices can only be a part of a 2-clique
+  
+
+  return max
+end
+
+def prune_n_degree_vertices(graph, n)
+  changed = true
+  while changed
+    changed = false
+    graph.each_vertex do
+      |v|
+      if graph.adjacent_vertices(v).size <= n
+        puts v
+        changed = true
+        graph.remove_vertex(v)
+      end
+    end
+  end
 end
 
 def parse
