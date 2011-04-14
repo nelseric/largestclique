@@ -1,0 +1,4 @@
+This project requires the ruby gem rgl (Ruby Graph Library)
+I have included a copy of library with my program since the gem is not installed on the machines in the EOS lab.
+
+I use the Bron–Kerbosch algorithm to find maximal cliques, and take the size largest one found.
