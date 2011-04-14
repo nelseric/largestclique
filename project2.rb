@@ -5,7 +5,6 @@ require 'set'
 def main
   graphs = parse
   graphs.each {|g| puts maximum_clique(g)}
-  graphs.last.write_to_graphic_file('png','complex')
 end
 
 def maximum_clique( graph )
