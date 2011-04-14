@@ -2,23 +2,32 @@ require 'rubygems'
 require 'rgl/adjacency'
 require 'rgl/dot'
 require 'rgl/traversal'
+require 'rgl/connected_components'
 
 def main
   graphs = parse()
   i = 0
-  graphs.each {|g| g.write_to_graphic_file('png', "graphs/g#{++i}")}
+#  graphs.each {|g| g.write_to_graphic_file('png', "graphs/g#{g.size}")}
   graphs.each {|g| puts maximum_clique(g)}
 
 end
 
 def maximum_clique( graph )
   max = 1
-  graph.each_connected_component do
+  graph.each_vertex do
     |c|
-    if c.size > max
-      max = c.size
+    map = []
+    va = graph.adjacent_vertices(c)
+    graph.each_adjacent(c) do
+      |av|
+      vb = graph.adjacent_vertices(av) - [c]
+      map = map | va & vb
     end
+    map = map | [c]
+    max = map.size if(map.size > max)
+    puts "m: #{map}"
   end
+  max
 end
 
 def parse
